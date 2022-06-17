@@ -1,0 +1,195 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Knowbe API
+  description: >-
+    A sample API that uses a sample-site as an example to demonstrate features in
+    the OpenAPI 3.0 specification
+servers:
+  - url: "http://localhost:8103"
+paths:
+  /v202104/mgr/facility/users:
+    get:
+      description: |
+        # GET {host}/{version}/Mgr/facility/users
+        ## 概要
+        1. 利用者がログイン済みユーザーに紐付く施設（トークンから取得）に紐づいているかチェックする。
+        2. リクエストパラメータにdateが設定されているかチェックする。
+            1. 設定されている場合、指定された年月日に有効な利用者として検索するように条件に追加する。
+        3. テーブルからデータを取得する
+      operationId: findUsers
+      parameters:
+        - name: date
+          in: query
+          description: |
+            対象日付<br/>
+            ※ 指定がない場合は、日付なしでデータ取得
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: user response
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/FacilityUsers"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    User:
+      type: "object"
+      required:
+        - "name"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 100
+        name:
+          type: "string"
+          example: "Taro"
+        status:
+          type: "string"
+          description: "user status"
+          enum:
+            - "pending"
+            - "active"
+            - "inactive"
+    Error:
+      type: "object"
+      properties:
+        code:
+          type: "integer"
+          format: "int32"
+        type:
+          type: "string"
+        message:
+          type: "string"
+    FacilityUsers:
+      example:
+        - uif_id: 4470
+          displayName: 青木パイポパイポ 和正
+          kanaName: アオキ カズマサでやんす
+          date_end_in_service: null
+          status: 2
+          in_time: "2022-05-09 09:58:00"
+          out_time: "2022-05-09 23:00:00"
+        - uif_id: 4358
+          displayName: 伊藤 恵
+          kanaName: イトウ ケイ
+          date_end_in_service: null
+          status: 2
+          in_time: "2022-05-26 11:00:00"
+          out_time: "2022-05-26 12:33:00"
+        - uif_id: 4472
+          displayName: 太田 胃酸
+          kanaName: オオタ イサン
+          date_end_in_service: null
+          status: 6
+          in_time: "2022-04-05 01:00:00"
+          out_time: "2022-04-05 19:00:00"
+        - uif_id: 3977
+          displayName: 開発 次郎
+          kanaName: カイハツ ジロウ
+          date_end_in_service: "2021-12-16"
+          status: 2
+          in_time: "2021-04-12 09:58:00"
+          out_time: "2021-04-12 15:00:00"
+        - uif_id: 3713
+          displayName: 開発 太郎
+          kanaName: カイハツ タロウ
+          date_end_in_service: "2025-12-31"
+          status: 2
+          in_time: "2022-03-04 15:21:31"
+          out_time: "2022-03-04 15:22:43"
+        - uif_id: 4360
+          displayName: 加藤 彩
+          kanaName: カトウ アヤ
+          date_end_in_service: null
+          status: 2
+          in_time: "2022-07-01 09:58:00"
+          out_time: "2022-07-01 09:59:00"
+        - uif_id: 4473
+          displayName: 神田川 大和
+          kanaName: カンダガワ ヤマト
+          date_end_in_service: null
+          status: null
+          in_time: null
+          out_time: null
+        - uif_id: 3227
+          displayName: 田中 次郎
+          kanaName: タナカ ジロウ
+          date_end_in_service: "2019-10-01"
+          status: null
+          in_time: null
+          out_time: null
+        - uif_id: 3960
+          displayName: 重複テスト１ 消さない→消す
+          kanaName: チョウフク ア
+          date_end_in_service: null
+          status: 2
+          in_time: "2022-03-04 15:21:55"
+          out_time: "2022-03-04 15:22:01"
+        - uif_id: 4359
+          displayName: 西川 徹
+          kanaName: ニシカワ トオル
+          date_end_in_service: null
+          status: 2
+          in_time: "2022-03-04 15:22:46"
+          out_time: null
+        - uif_id: 4361
+          displayName: 浜田 優
+          kanaName: ハマダ マサル
+          date_end_in_service: null
+          status: 2
+          in_time: "2022-03-04 15:22:57"
+          out_time: null
+        - uif_id: 4474
+          displayName: ブラ タモリ
+          kanaName: ブラ タモリ
+          date_end_in_service: null
+          status: null
+          in_time: null
+          out_time: null
+        - uif_id: 4471
+          displayName: 村田 耐性
+          kanaName: ムラタ タイセイ
+          date_end_in_service: null
+          status: null
+          in_time: null
+          out_time: null
+        - uif_id: 3259
+          displayName: 山田 次郎
+          kanaName: ヤマダ ジロウ
+          date_end_in_service: null
+          status: 2
+          in_time: "2020-11-17 10:00:00"
+          out_time: "2020-11-17 12:00:00"
+        - uif_id: 3221
+          displayName: 吉田 太郎
+          kanaName: ヨシダ タロウ
+          date_end_in_service: null
+          status: 2
+          in_time: "2022-02-28 11:11:43"
+          out_time: null
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

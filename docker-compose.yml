@@ -6,6 +6,10 @@ services:
     container_name: "swagger-editor"
     ports:
       - "8101:8080"
+    volumes:
+      - ./api/openapi.yaml:/openapi.yaml
+    environment:
+      SWAGGER_FILE: /openapi.yaml
 
   swagger-ui:
     image: swaggerapi/swagger-ui
@@ -22,6 +26,6 @@ services:
     container_name: "swagger-api"
     ports:
       - "8103:4010"
-    command: mock -h 0.0.0.0 /openapi.yaml
+    command: mock -h 0.0.0.0 -p 4010 /openapi.yaml
     volumes:
       - ./api/openapi.yaml:/openapi.yaml
