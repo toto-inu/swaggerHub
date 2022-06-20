@@ -8,6 +8,15 @@ info:
 servers:
   - url: "http://localhost:8103"
 paths:
+  /v202104/mgr/mock_sample:
+    get:
+      responses:
+        "200":
+          description: sample response
+          content:
+            application/json:
+              example:
+                data: []
   /v202104/mgr/facility/users:
     get:
       description: |
